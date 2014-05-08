@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title ng-bind="appName"></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="container">
+
+    <header class="header">
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <a href="/" class="navbar-brand" ng-bind="appName">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+            </a>
+            <!-- Sidebar toggle button-->
+
+            <a href="" class="navbar-brand navbar-right" ng-show="user" ng-click="logout()">
+                Sign Out
+            </a>
+        </nav>
+    </header>
+
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+        <div ng-view></div>
+    </div><!-- ./wrapper -->
+    <!-- /.container -->
+
+    <!-- JavaScript -->
+    <script src="js/builtio-min.js"></script>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-cookies.min.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/landing.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/linkedin-login.js"></script>
+</body>
+
+</html>

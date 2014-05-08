@@ -1,0 +1,44 @@
+ <div class="container">
+  <div class="row">
+    <div class="user-details">
+      <div class="user-image">
+        <img ng-src="{{user.linkedin_profile.pictureUrl||'img/profile.png'}}" title="{{user.linkedin_profile.formattedName}}" class="img-circle">
+      </div>
+      <div class="user-info-block">
+        <div class="user-heading">
+            <h3>{{user.linkedin_profile.formattedName}}</h3>
+            <span class="help-block">{{user.linkedin_profile.headline}}</span>
+            <span class="help-block">{{user.linkedin_profile.location.name}}</span>
+            <span class="help-block">{{user.email}}</span>
+            <a href="{{user.linkedin_profile.publicProfileUrl}}" class="help-block" target="_blank">{{user.linkedin_profile.publicProfileUrl}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="text-align: center;">
+    <small>
+      Other users who had logged in:
+    </small>
+  </h2>
+
+  <br />
+
+  <div class="row" ng-show="!users" style="max-width:400px;margin:0 auto;">
+    <h3 style="text-align: center;">
+      <small>
+        Loading...
+      </small>
+    </h3>
+  </div>
+
+  <div class="row" ng-repeat="user in users" style="max-width:400px;margin:0 auto;">
+    <div class="list-group">
+      <a class="list-group-item">
+        <img ng-src="{{user.linkedin_profile.pictureUrl||'img/profile.png'}}" title="{{user.linkedin_profile.formattedName}}" class="img-circle img-small pull-left">
+        <h4 class="list-group-item-heading" ng-bind="user.linkedin_profile.formattedName"></h4>
+        <p class="list-group-item-text" ng-bind="user.linkedin_profile.headline"></p>
+      </a>
+    </div>
+  </div>
+</div>

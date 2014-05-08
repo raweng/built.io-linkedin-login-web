@@ -1,0 +1,56 @@
+.padding-top-50 {
+  padding-top: 50px;
+}
+
+body {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 5%;
+  right: 5%;
+}
+
+.no-print {
+  display: none;
+}
+
+
+
+
+body {background: #EAEAEA;}
+.user-details {
+  position: relative; padding: 0;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.user-details .user-image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+}
+.user-image img {
+  clear: both; margin: auto; position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.user-details .user-info-block {
+  width: 100%;
+  background: rgb(255, 255, 255);
+  padding: 35px 10px 10px;
+  margin-top: -37px;
+}
+.user-info-block .user-heading {
+  width: 100%; text-align: center; margin: 10px 0 0;
+}
+
+a.help-block{
+  color: #428bca;
+}
+
+.img-small {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
