@@ -1,0 +1,14 @@
+{
+  "name": "linkedin-AnyAuth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Built.IO Backend",
+  "license": "ISC",
+  "dependencies": {
+    "built.io": "^2.0.52"
+  }
+}

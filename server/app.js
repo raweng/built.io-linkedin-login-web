@@ -1,3 +1,5 @@
+var BuiltSDK = require('built.io');
+
 var config = {
   application_uid:      'linkedinlogin',
   application_api_key:  'blte501d189aa8b29b8',
@@ -8,6 +10,10 @@ var config = {
   Initializing the SDK
 */
 Built.initialize(config.application_api_key, config.application_uid);
+
+var BuiltApp = BuiltSDK.App(config.application_api_key)
+                       .setMasterKey(config.master_key);
+
 
 /*
   Log in using linked in
@@ -24,26 +30,24 @@ Built.Extension.define('login', function(req, res) {
   .success(function(httpResponse) {
     profile = JSON.parse(httpResponse.text);
 
-    Built.setMasterKey(config.master_key);
-    
     // query for existing users
-    var query = new Built.Query('built_io_application_user')
-    query.where('email', profile.emailAddress)
+    var query = BuiltApp.Class('built_io_application_user').Query();
+        query = query.where('email', profile.emailAddress);
 
-    Built.User.generateAuthtoken(
-      query,
+    BuiltApp.User.generateAuthtoken(
+      query
       // we want to create a new user if he doesn't already exist
-      true,
-      // create or update users with the following profile
+      , true, 
+      // create or update users with the following profile.
       {
         email: profile.emailAddress,
         linkedin_profile: profile
       }
     )
     .then(function(response) {
-      return res.success(response)
+      return res.success(response);
     }, function(response) {
-      return res.error('error', response)
+      return res.error('error', response);
     })
   })
   .error(function(httpResponse) {
