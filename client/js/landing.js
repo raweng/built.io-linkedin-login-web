@@ -1,7 +1,9 @@
 var LandingCtrl = [
   '$scope', '$cookies', '$location', '$window', 
   function($scope, $cookies, $location, $window) {
+    
     if ($scope.user) {
+      console.log('$scope.user', $scope.user);
       return $location.path('/profile');
     }
 
@@ -17,7 +19,7 @@ var LandingCtrl = [
       var e = function(u) {return encodeURIComponent(u);}
       var base = 'https://www.linkedin.com/uas/oauth2/authorization';
       var response_type = e('code');
-      var client_id = e('75vurd5br8m7v9');
+      var client_id = e('758kiqmfr6oaww');
       var redirect_uri = e('http://' + url() + '/oauth_callback.html');
       var scope = e('r_basicprofile r_emailaddress');
       var state = e(Math.ceil(Math.random()*10000).toString());

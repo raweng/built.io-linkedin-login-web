@@ -1,5 +1,6 @@
 function u(url) {return 'markup/' + url};
 
+// Safe apply
 function $sa(scope, fn) {
     (scope.$$phase || scope.$root.$$phase) ? fn() : scope.$apply(fn);
 }
@@ -22,11 +23,13 @@ angular.module('app', ['ngRoute', 'ngCookies'])
   otherwise({redirectTo:'/'});
 }])
 .run(['$rootScope', '$location', function($rootScope, $location) {
-  // app name
+  // App Name
   $rootScope.appName = 'LinkedIn Login';
 
   $rootScope.getName = function(profile) {
-    return profile.linkedin_profile.formattedName;
+    if(profile && profile.get){
+      return profile.get('linkedin_profile').formattedName;
+    }
   }
 
   $rootScope.makeUser = function(profile) {
@@ -39,42 +42,52 @@ angular.module('app', ['ngRoute', 'ngCookies'])
   }
 
   $rootScope.logout = function() {
-    Built.User.logout().
-    onSuccess(function() {
-      Built.User.clearSession();
-
-      $sa($rootScope, function() {
-        $rootScope.clearUser();
-        $location.path('/');
+    BuiltApp.User.getCurrentUser()
+      .then(function(user){
+        return user.logout()
       })
-    }).
-    onError(function() {
-      console.log('error')
-      Built.User.clearSession();
-      
-      $sa($rootScope, function() {
-        $rootScope.clearUser();
-        $location.path('/');
-      })
-    })
+      .then(function(res){
+        BuiltUser.clearSession();
+        $sa($rootScope, function() {
+          $rootScope.clearUser();
+          $location.path('/');
+        });
+      }, function(err){
+        console.log('Error', err);
+        BuiltUser.clearSession();
+        $sa($rootScope, function() {
+          $rootScope.clearUser();
+          $location.path('/');
+        })
+      });
   }
 
-  if (Built.User.getSession()) {
-    $rootScope.makeUser(Built.User.getSession());
-    Built.User.setCurrentUser(Built.User.getSession());
-    $location.path('/profile');
-  }
-  
-}]);
+  /*
+    Get User and redirect to `/profile` route
+  */
+  BuiltApp.User.getCurrentUser()
+    .then(function(data){
+      console.log('data',data.toJSON());
+      $sa($rootScope, function(){
+        $rootScope.makeUser(data.toJSON());
+        $location.path('/profile');
+      });
+    }, function(error){
+      console.log('Please Login.')
+    });
+}])
 
+/*
+  App Config
+*/
 config = {
   host: 'api.built.io',
   protocol: 'https',
-  application_api_key: 'blte501d189aa8b29b8',
-  application_uid: 'linkedinlogin'
+  application_api_key: 'blte501d189aa8b29b8'
 }
 
-// initialize built
-Built.setURL(config.host, config.protocol);
-// Built.fallbackForCORS(true);
-Built.initialize(config.application_api_key, config.application_uid);
+/*
+ Initialize BuiltApp
+*/
+var BuiltApp  = Built.App(config.application_api_key);
+var BuiltUser = BuiltApp.User;

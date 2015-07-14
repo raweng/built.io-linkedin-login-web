@@ -5,16 +5,16 @@
 
   <link href="css/style.css" rel="stylesheet">
 
-  <script src="js/builtio-min.js"></script>
+  <script src="js/built.min.js"></script>
 
   <script type="text/javascript">
     var e = function(u) {return encodeURIComponent(u);}
     config = {
       url: 'https://www.linkedin.com/uas/oauth2/accessToken',
       redirect_uri: 'http://' + window.location.host + '/oauth_callback.html',
-      client_id: '75vurd5br8m7v9',
+      client_id: '758kiqmfr6oaww',
       grant_type: 'authorization_code',
-      client_secret: '2HzHtA1jJRVrTekE',
+      client_secret: 'jxyFZlAzwY3rsebs',
       api_key: 'blte501d189aa8b29b8'
     }
 
@@ -24,25 +24,23 @@
       params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
     }
     // get the access token by making a call
-    Built.initialize(config.api_key, 'linkedinlogin');
-    Built.Extension.execute('linkedin', {
+    var App = Built.App(config.api_key);
+    App.Extension.execute('linkedin', {
       code: params.code,
       url: config.url,
       redirect_uri: config.redirect_uri,
       client_id: config.client_id,
       client_secret: config.client_secret,
       grant_type: config.grant_type
-    }, {
-      onSuccess: function(data) {
-        // executed successfully
-        var result = JSON.parse(JSON.parse(data)["result"])
-        location = '/#/linkedin_login?access_token=' + result.access_token
-      },
-      onError: function() {
-        // error
-        console.log('error hua', arguments)
-      }
     })
+    .then(function(data) {
+        // executed successfully
+        var access_token = JSON.parse(data)["access_token"]
+        location = '/#/linkedin_login?access_token=' + access_token
+      }, function() {
+        // error
+        console.log('Got an error')
+      }) 
   </script>
 </head>
 <body>
